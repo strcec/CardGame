@@ -1,0 +1,31 @@
+﻿@using CardGame_iStone.Models
+@model Test
+@{
+        ViewBag.Title = "Home Page";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+
+    var imgArray = JSON.parse('@Html.Raw(Json.Encode(Model.kort ))');
+    var currentNumber = 0;
+
+    function nextCard() {
+        if (currentNumber < imgArray.length -1) {
+            currentNumber = currentNumber + 1;
+            document.getElementById('ci').src = imgArray[currentNumber];
+        }
+        else {
+            document.getElementById('ci').src = "/Content/CardImages/Empty.png";
+            document.getElementById('btn_next').value = "No more cards";
+        }
+    }
+
+</script>
+
+<div class="jumbotron">
+    <img id="ci" src="~/Content/CardImages/0Front.png" alt="test" />
+    <input type="button" onclick="nextCard()" value="Next Card" id="btn_next" />
+</div>
+
+
