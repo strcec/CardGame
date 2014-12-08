@@ -1,31 +1,56 @@
 ﻿@using CardGame_iStone.Models
-@model Test
+@model Deck
 @{
-        ViewBag.Title = "Home Page";
+    ViewBag.Title = "Home Page";
 }
 
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script type="text/javascript">
 
-    var imgArray = JSON.parse('@Html.Raw(Json.Encode(Model.kort ))');
-    var currentNumber = 0;
+    var localDeck = {
+        Cards: imgArray
+    };
+
+    var currentNumber = -1;
+    var imgArray = JSON.parse('@Html.Raw(Json.Encode(Model.Cards))');
+    var originalDeck = JSON.parse('@Html.Raw(Json.Encode(Model))');
 
     function nextCard() {
-        if (currentNumber < imgArray.length -1) {
+        if (currentNumber < imgArray.length - 1) {
             currentNumber = currentNumber + 1;
-            document.getElementById('ci').src = imgArray[currentNumber];
-        }
-        else {
-            document.getElementById('ci').src = "/Content/CardImages/Empty.png";
-            document.getElementById('btn_next').value = "No more cards";
+            document.getElementById('ci').src = imgArray[currentNumber].ImageUrl;
+        } else {
+            document.getElementById('ci').src = "/Content/Empty.png";
+            document.getElementById('btn_next').disabled = true;
         }
     }
+
+    function ShuffleCards() {
+        var img = JSON.stringify(imgArray);
+        $.ajax({
+            url: '@Url.Action("ShuffleCards")',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: img, //Creates an array of Card objects, but no values inside the object. 
+            success: function(response) {
+                imgArray = response;
+                currentNumber = -1;
+                document.getElementById('ci').src = "/Content/0Front.png";
+                document.getElementById('btn_next').disabled = false;
+                alert("Card shuffeled!");//TODO: create a better way to communicated with user
+            }
+        });
+
+    };
 
 </script>
 
 <div class="jumbotron">
-    <img id="ci" src="~/Content/CardImages/0Front.png" alt="test" />
-    <input type="button" onclick="nextCard()" value="Next Card" id="btn_next" />
+    <img id="ci" src="~/Content/0Front.png" alt="Playingcard"/>
+    <input type="button" onclick="nextCard()" value="Next Card" id="btn_next"/>
+    <input type="button" onclick="ShuffleCards()" value="Shuffle Cards" id="btn_shuffle" />
+
 </div>
 
 

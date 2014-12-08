@@ -8,5 +8,7 @@ namespace CardGame_iStone.Models
     public class Card
     {
         public int Number;
+        public string ImageUrl;
+        public Suits.SuitType SuitType;
     }
 }
