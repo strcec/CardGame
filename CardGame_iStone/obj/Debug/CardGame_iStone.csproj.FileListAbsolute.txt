@@ -50,6 +50,6 @@ C:\Users\strce_000\documents\visual studio 2015\Projects\CardGame_iStone\CardGam
 C:\Users\strce_000\documents\visual studio 2015\Projects\CardGame_iStone\CardGame_iStone\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\strce_000\documents\visual studio 2015\Projects\CardGame_iStone\CardGame_iStone\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\strce_000\documents\visual studio 2015\Projects\CardGame_iStone\CardGame_iStone\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\strce_000\documents\visual studio 2015\Projects\CardGame_iStone\CardGame_iStone\obj\Debug\CardGame_iStone.csprojResolveAssemblyReference.cache
 C:\Users\strce_000\documents\visual studio 2015\Projects\CardGame_iStone\CardGame_iStone\obj\Debug\CardGame_iStone.dll
 C:\Users\strce_000\documents\visual studio 2015\Projects\CardGame_iStone\CardGame_iStone\obj\Debug\CardGame_iStone.pdb
+C:\Users\strce_000\Documents\Visual Studio 2015\Projects\CardGame_iStone\CardGame_iStone\obj\Debug\CardGame_iStone.csprojResolveAssemblyReference.cache

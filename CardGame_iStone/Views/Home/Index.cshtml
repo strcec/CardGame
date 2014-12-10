@@ -2,68 +2,26 @@
 @model Deck
 @{
     ViewBag.Title = "Home Page";
+
+    if (ViewData["Feilmelding"] != null && Model == null)
+    {
+        var feilmelding = (string)ViewData["Feilmelding"];
+    }
+
+    //var jsonModel = Html.Raw(Json.Encode(Model));
 }
 
 <script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/CardScript.js"></script>
 <script type="text/javascript">
-
-    var currentNumber = -1;
-    var imgArray = JSON.parse('@Html.Raw(Json.Encode(Model.Cards))');
-    var originalDeck = JSON.parse('@Html.Raw(Json.Encode(Model))');
-
-    function nextCard() {
-        if (currentNumber < imgArray.length - 1) {
-            currentNumber = currentNumber + 1;
-            document.getElementById('ci').src = imgArray[currentNumber].ImageUrl;
-        } else {
-            document.getElementById('ci').src = "/Content/Empty.png";
-            document.getElementById('btn_next').disabled = true;
-        }
-    }
-
-    function ShuffleCards() {
-        $.ajax({
-            url: '@Url.Action("ShuffleCards")',
-            data: JSON.stringify(imgArray), 
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            type: "POST",
-            success: function(response) {
-                imgArray = response;
-                currentNumber = -1;
-                document.getElementById('ci').src = "/Content/0Front.png";
-                document.getElementById('btn_next').disabled = false;
-                alert("Card shuffeled!");//TODO: create a better way to communicated with user
-            }
-        });
-    };
-
-    function SortCards() {
-        $.ajax({
-            url: '@Url.Action("SortCards")',
-            data: JSON.stringify(imgArray),
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            type: "POST",
-            success: function (response) {
-                imgArray = response;
-                currentNumber = -1;
-                document.getElementById('ci').src = "/Content/0Front.png";
-                document.getElementById('btn_next').disabled = false;
-                alert("Card Sorted!");//TODO: create a better way to communicated with user
-            }
-        });
-    };
-
+    var jsonModel = JSON.parse('@Html.Raw(Json.Encode(Model))');
 </script>
 
 <div class="jumbotron">
-    <img id="ci" src="/Content/0Front.png" alt="Playingcard"/>
-    <input type="button" onclick="nextCard()" value="Next Card" id="btn_next"/>
-    <input type="button" onclick=" ShuffleCards() " value="Shuffle Cards" id="btn_shuffle"/>
-    <input type="button" onclick="SortCards()" value="Sort Cards" id="btn_shuffle" />
-
-
+    <img alt="Playingcard" id="ci" src="/Content/0Front.png">
+    <input type="button" onclick="NextCard(jsonModel)" value="Next Card" id="btn_next" />
+    <input type="button" onclick="ShuffleCards(jsonModel)" value=" shuffle cards" id="btn_shuffle" />
+    <input type="button" onclick="SortCards(jsonModel)" value="Sort Cards" id="btn_sort" />
 </div>
 
 

@@ -5,9 +5,9 @@ using System.Web;
 
 namespace CardGame_iStone.Models
 {
-    public static class Suits
+    public static class Suit
     {
-        public enum SuitType
+        public enum Type
         {
             Clubs = 1,
             Spades,

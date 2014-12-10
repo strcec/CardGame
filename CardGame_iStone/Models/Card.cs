@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using CardGame_iStone.Models.Suit;
 
 namespace CardGame_iStone.Models
 {
@@ -9,6 +6,6 @@ namespace CardGame_iStone.Models
     {
         public int Number { get; set; }
         public string ImageUrl { get; set; }
-       public Suits.SuitType SuitType { get; set; }
+        public Type SuitType { get; set; }
     }
 }

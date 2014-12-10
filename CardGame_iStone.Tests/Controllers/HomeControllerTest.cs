@@ -24,5 +24,12 @@ namespace CardGame_iStone.Tests.Controllers
             // Assert
             Assert.IsNotNull(result);
         }
+
+        [TestMethod]
+        public void GetArrayOfImages()
+        {
+            var controller = new HomeController();
+            
+        }
     }
 }

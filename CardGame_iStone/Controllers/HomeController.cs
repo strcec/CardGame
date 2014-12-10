@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
@@ -18,41 +19,35 @@ namespace CardGame_iStone.Controllers
 
         public ActionResult Index()
         {
-            return View(CreateDeck());
+            if (GetImageUrl() == null || !GetImageUrl().Count().Equals(52)) return View();
+            return View(new Deck(GetImageUrl()));
         }
 
         private IEnumerable<string> GetImageUrl()
         {
-            return Directory.GetFiles(HttpContext.Server.MapPath("~" + ImageDirectory)).Select(s => new Uri(s).Segments.Last()).ToArray();
-        }
-
-        private Deck CreateDeck()
-        {
-            var urlToImages = GetImageUrl();
-            var deck = new Deck {Cards = new List<Card>()};
-
-            foreach (var card in urlToImages)
+            try
             {
-                var c = new Card
-                {
-                    ImageUrl = ImageDirectory + card,
-                    Number = Convert.ToInt32(string.Format("{0}{1}", card[2], card[3])),
-                    SuitType = (Suits.SuitType)Convert.ToInt32(card.Split('-').ElementAt(0))
-                };
-                deck.Cards.Add(c);
+                return Directory.GetFiles(HttpContext.Server.MapPath("~" + ImageDirectory), "*.png")
+                        .Select(s => new Uri(s).Segments.Last())
+                        .ToArray();
             }
-            return deck;
+            catch (DirectoryNotFoundException dirEx)
+            {
+                Console.WriteLine("Directory not found: " + dirEx.Message);
+                return null;
+            }
         }
+
         [HttpPost]
-        public JsonResult ShuffleCards(IEnumerable<Card> sortedDeck)
+        public JsonResult ShuffleCards(Deck sortedDeck)
         {
             var random = new Random();
-            return Json(sortedDeck.OrderBy(c => random.Next()).Select(c => c).ToList(), JsonRequestBehavior.AllowGet);                                
+            return Json(sortedDeck.Cards.OrderBy(c => random.Next()).ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult SortCards(IEnumerable<Card> unsortedDeck)
+        public JsonResult SortCards(Deck unsortedDeck)
         {
-            return Json(unsortedDeck.OrderBy(t => t.SuitType).ThenBy(t => t.Number).ToList(), JsonRequestBehavior.AllowGet);
+            return Json(unsortedDeck.Cards.OrderBy(t => t.SuitType).ThenBy(t => t.Number).ToList(), JsonRequestBehavior.AllowGet);
         }
     }
 }
